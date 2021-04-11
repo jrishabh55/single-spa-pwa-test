@@ -1,7 +1,7 @@
 const { merge } = require("webpack-merge");
 const singleSpaDefaults = require("webpack-config-single-spa");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { InjectManifest } = require("workbox-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = (webpackConfigEnv, argv) => {
   const orgName = "react-mf";
@@ -28,6 +28,14 @@ module.exports = (webpackConfigEnv, argv) => {
       ],
     },
     {
+      plugins: [
+        new CopyPlugin({
+          patterns: [{ from: "public", to: "./" }],
+        }),
+      ],
+      output: {
+        clean: true,
+      },
       // modify the webpack config however you'd like to by adding to this object
     }
   );
