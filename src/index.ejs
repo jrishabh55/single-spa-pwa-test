@@ -6,6 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>React Microfrontends</title>
   <meta name="importmap-type" content="systemjs-importmap" />
+  <link rel="manifest" href="/manifest.json">
   <script type="systemjs-importmap" src="https://storage.googleapis.com/react.microfrontends.app/importmap.json"></script>
   <% if (isLocal) { %>
   <script type="systemjs-importmap">
@@ -45,6 +46,15 @@
   <script>
     System.import('@react-mf/root-config');
     System.import('@react-mf/styleguide');
+  </script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js',{
+            scope: '.' // <--- THIS BIT IS REQUIRED
+        });
+      });
+    }
   </script>
   <import-map-overrides-full show-when-local-storage="devtools" dev-libs></import-map-overrides-full>
 </body>
