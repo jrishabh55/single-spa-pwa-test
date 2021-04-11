@@ -2,6 +2,8 @@ importScripts(
   "https://storage.googleapis.com/workbox-cdn/releases/6.1.1/workbox-sw.js"
 );
 
+const networkTimeoutSeconds = 30;
+
 // workbox.skipWaiting();
 // workbox.clientsClaim();
 
@@ -43,20 +45,23 @@ workbox.routing.registerRoute(
 );
 
 // 3. cache news articles result
-workbox.routing.registerRoute(
-  new RegExp(".(js)$"),
-  new workbox.strategies.StaleWhileRevalidate({
-    cacheName: "My-awesome-cache-js",
-    cacheExpiration: {
-      maxAgeSeconds: 60 * 30, //cache the news content for 30mn
-    },
-  })
-);
+// workbox.routing.registerRoute(
+//   new RegExp('/'),
+//   new workbox.strategies.NetworkFirst({
+//     networkTimeoutSeconds,
+//     cacheName: 'My-awesome-cache-routes',
+//     plugins: [
+//       new workbox.cacheableResponse.CacheableResponsePlugin({
+//         statuses: [0, 200],
+//       }),
+//     ],
+//   })
+// );
+
+self.addEventListener("fetch", () => {});
 
 workbox.routing.registerRoute(
-  new RegExp(
-    "https://react.microfrontends.app/navbar/c1a777c770ee187cebedd0724653c771495f2af9/react-mf-navbar.js"
-  ),
+  new RegExp("https://react.microfrontends.app/"),
   new workbox.strategies.StaleWhileRevalidate({
     cacheName: "My-awesome-cache-navbar",
     cacheExpiration: {
